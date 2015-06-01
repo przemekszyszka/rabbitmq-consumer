@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  host: localhost
+  username:
+  password:
+
+development:
+  <<: *default
+  database: rabbitmq_consumer_development_<%= ENV['QUEUE_ID'] %>
+
+test:
+  <<: *default
+  database: rabbitmq_consumer_test_<%= ENV['QUEUE_ID'] %>
+
+production:
+  <<: *default
+  database: rabbitmq_consumer_production_<%= ENV['QUEUE_ID'] %>
