@@ -4,23 +4,10 @@ class CurrencyWorker
 
   def work(message)
     currency = JSON.parse(message)
-    currency = Currency.create!(id: currency['id'], rates: currency['rates'])
+    currency = Currency.create(uuid: currency['id'], rates: currency['rates'])
 
-    direct_exchange = channel.direct('currencies.direct', routing_key: 'acknowledgements')
-    direct_exchange.publish({ id: ENV['QUEUE_ID'], uuid: currency.id }.to_json)
+    Publisher.publish({ id: ENV['QUEUE_ID'], uuid: currency.uuid })
 
     ack!
-  end
-
-  private
-
-  def self.channel
-    @channel ||= connection.create_channel
-  end
-
-  def self.connection
-    @connection ||= Bunny.new.tap do |c|
-      c.start
-    end
   end
 end
