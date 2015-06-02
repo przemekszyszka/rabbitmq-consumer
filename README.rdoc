@@ -1,28 +1,22 @@
-== README
+= rabbitmq-consumer
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a consumer app which will receive messages send publisher and send acknowledgements with rabbitmq
 
-Things you may want to cover:
+==Project Setup
 
-* Ruby version
+=== 1. Gems
+Install all the required gems:
+    bundle install
 
-* System dependencies
+=== 2. Database
+Copy the config/database.yml.sample file to config/database.yml:
+    cp config/database.yml.sample config/database.yml
 
-* Configuration
+Create database for each of the consumers by running:
+    QUEUE_ID=1 rake db:create db:migrate
+Change QUEUE_ID from 1 up to 3
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+=== 3. Start workers
+Start workers in separate terminal windows using command:
+    QUEUE_ID=1 WORKERS=CurrencyWorker rake sneakers:run
+Change QUEUE_ID from 1 up to 3

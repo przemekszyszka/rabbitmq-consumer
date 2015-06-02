@@ -16,4 +16,3 @@ test:
 production:
   <<: *default
   database: rabbitmq_consumer_production_<%= ENV['QUEUE_ID'] %>
-vdd
